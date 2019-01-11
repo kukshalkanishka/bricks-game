@@ -1,0 +1,11 @@
+.paddle {
+  background-color: black;
+  position: absolute;
+}
+main {
+  border: 1px solid black;
+  width: 960px;
+  height: 680px;
+  margin: auto auto;
+  position: relative;
+}
