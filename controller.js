@@ -21,12 +21,13 @@ const setEventListners = function(document, paddle) {
 };
 
 const initialiseGame = function() {
-  const paddle = new Paddle(150, 20, 430, 10);
   const screen = new Screen(960, 680);
+  const wall = new Wall(0, 960, 0, 680);
+  const paddle = new Paddle(150, 20, 430, 10);
   const velocity = new Velocity(5, 5);
   const ballPosition = new BallPosition(30, 0);
   const ball = new Ball(30, ballPosition, velocity);
-  const game = new Game(screen, paddle, ball);
+  const game = new Game(screen, wall, paddle, ball);
 
   createScreen(document, screen);
   createPaddleDiv(document, paddle);

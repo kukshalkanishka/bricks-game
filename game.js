@@ -52,16 +52,50 @@ class Screen {
   }
 }
 
+class Wall {
+  constructor(rightPosition, leftPosition, topPosition, bottomPosition) {
+    this.rightPosition = rightPosition;
+    this.leftPosition = leftPosition;
+    this.topPosition = topPosition;
+    this.bottomPosition = bottomPosition;
+  }
+}
+
 class Game {
-  constructor(screen, paddle, ball) {
+  constructor(screen, wall, paddle, ball) {
     this.screen = screen;
+    this.wall = wall;
     this.paddle = paddle;
     this.ball = ball;
   }
+
+  checkCollisionOfBallAndWall() {
+    const ballDiameter = this.ball.radius * 2;
+    if (this.ball.position.Y >= this.wall.bottomPosition - ballDiameter) {
+      this.ball.changeVelocity(this.ball.velocity.X, -this.ball.velocity.Y);
+    }
+
+    if (this.ball.position.Y <= this.wall.topPosition) {
+      this.ball.changeVelocity(
+        this.ball.velocity.X,
+        Math.abs(this.ball.velocity.Y)
+      );
+    }
+
+    if (this.ball.position.X <= this.wall.rightPosition) {
+      this.ball.changeVelocity(
+        Math.abs(this.ball.velocity.X),
+        this.ball.velocity.Y
+      );
+    }
+
+    if (this.ball.position.X >= this.wall.leftPosition - ballDiameter) {
+      this.ball.changeVelocity(-this.ball.velocity.X, this.ball.velocity.Y);
+    }
+  }
+
   moveBall() {
     this.ball.move();
-    if (this.ball.position.Y > 670) {
-      this.ball.changeVelocity(-5, -5);
-    }
+    this.checkCollisionOfBallAndWall();
   }
 }

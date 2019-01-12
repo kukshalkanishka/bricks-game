@@ -7,8 +7,8 @@
 * DONE make view of ball.
 * DONE make its boundary.
 * DONE make screen it's own entity.
-* TODO game will be a class of itself
-* TODO paddle, ball, screen, bricks will be known by the game class.
+* DONE game will be a class of itself
+* DONE paddle, ball, screen, bricks will be known by the game class.
 * TODO improve directory structure to src and test.
-* TODO ball sould have direction as a property.
+* DONE ball sould have direction as a property.
 
