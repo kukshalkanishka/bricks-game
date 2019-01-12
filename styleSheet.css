@@ -2,10 +2,15 @@
   background-color: black;
   position: absolute;
 }
-main {
+
+.ball {
+  background-color: red;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.screen {
   border: 1px solid black;
-  width: 960px;
-  height: 680px;
   margin: auto auto;
   position: relative;
 }
