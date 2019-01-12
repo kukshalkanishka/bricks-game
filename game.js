@@ -15,9 +15,8 @@ class Paddle {
 }
 
 class Ball {
-  constructor(width, height, left, top, speed = 10) {
-    this.width = width;
-    this.height = height;
+  constructor(radius, left, top, speed = 10) {
+    this.radius = radius;
     this.left = left;
     this.top = top;
     this.speed = speed;
@@ -40,5 +39,13 @@ class Screen {
   constructor(width, height) {
     this.width = width;
     this.height = height;
+  }
+}
+
+class Game {
+  constructor(screen, paddle, ball) {
+    this.screen = screen;
+    this.paddle = paddle;
+    this.ball = ball;
   }
 }
