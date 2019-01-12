@@ -4,6 +4,7 @@ const ARROW_RIGHT = 'ArrowRight';
 const addPixelSuffix = function(element) {
   return element + 'px';
 };
+
 const getScreen = document => document.getElementById('screen_1');
 
 const handleMovement = function(document, paddle) {

@@ -1,3 +1,5 @@
+const getMain = document => document.getElementById('main');
+
 const drawPaddle = function(document, paddle) {
   const paddleDiv = document.getElementById('paddle_1');
   paddleDiv.style.width = addPixelSuffix(paddle.width);
@@ -37,8 +39,6 @@ const drawScreen = function(document, screen) {
   screenDiv.style.width = addPixelSuffix(screen.width);
   screenDiv.style.height = addPixelSuffix(screen.height);
 };
-
-const getMain = document => document.getElementById('main');
 
 const createScreen = function(document, screen) {
   const main = getMain(document);

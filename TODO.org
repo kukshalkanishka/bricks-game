@@ -1,0 +1,14 @@
+* DONE make view of paddle.
+* DONE make boundary of environment.
+* DONE make controller to create paddle.
+* DONE make paddle model 
+* DONE add movemetn to paddle.
+* DONE then make its model.
+* DONE make view of ball.
+* DONE make its boundary.
+* DONE make screen it's own entity.
+* TODO game will be a class of itself
+* TODO paddle, ball, screen, bricks will be known by the game class.
+* TODO improve directory structure to src and test.
+* TODO ball sould have direction as a property.
+
