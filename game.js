@@ -14,24 +14,34 @@ class Paddle {
   }
 }
 
+class Velocity {
+  constructor(velocityX, velocityY) {
+    this.X = velocityX;
+    this.Y = velocityY;
+  }
+}
+
+class BallPosition {
+  constructor(positionX, positionY) {
+    this.X = positionX;
+    this.Y = positionY;
+  }
+}
+
 class Ball {
-  constructor(radius, left, top, speed = 10) {
+  constructor(radius, ballPosition, velocity) {
     this.radius = radius;
-    this.left = left;
-    this.top = top;
-    this.speed = speed;
+    this.position = ballPosition;
+    this.velocity = velocity;
   }
-  moveLeft() {
-    this.left = this.left - this.speed;
+  move() {
+    this.position.X += this.velocity.X;
+    this.position.Y += this.velocity.Y;
   }
-  moveRight() {
-    this.left = this.left + this.speed;
-  }
-  moveUp() {
-    this.top = this.top - this.speed;
-  }
-  moveDown() {
-    this.top = this.top + this.speed;
+
+  changeVelocity(X, Y) {
+    this.velocity.X = X;
+    this.velocity.Y = Y;
   }
 }
 
@@ -47,5 +57,11 @@ class Game {
     this.screen = screen;
     this.paddle = paddle;
     this.ball = ball;
+  }
+  moveBall() {
+    this.ball.move();
+    if (this.ball.position.Y > 670) {
+      this.ball.changeVelocity(-5, -5);
+    }
   }
 }

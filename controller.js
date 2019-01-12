@@ -20,21 +20,21 @@ const setEventListners = function(document, paddle) {
   screen.onkeydown = handleMovement.bind(null, document, paddle);
 };
 
-const moveBallDown = function(document, ball) {
-  ball.moveDown();
-  drawBall(document, ball);
-};
-
 const initialiseGame = function() {
   const paddle = new Paddle(150, 20, 430, 10);
-  const ball = new Ball(30, 0, 0);
   const screen = new Screen(960, 680);
-  const game = new Game(paddle, ball, screen);
+  const velocity = new Velocity(5, 5);
+  const ballPosition = new BallPosition(30, 0);
+  const ball = new Ball(30, ballPosition, velocity);
+  const game = new Game(screen, paddle, ball);
 
   createScreen(document, screen);
   createPaddleDiv(document, paddle);
   createBall(document, ball);
-  setInterval(moveBallDown.bind(null, document, ball), 100);
+  setInterval(function() {
+    game.moveBall();
+    drawBall(document, ball);
+  }, 50);
   setEventListners(document, paddle);
 };
 
