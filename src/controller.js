@@ -1,9 +1,7 @@
 const ARROW_LEFT = 'ArrowLeft';
 const ARROW_RIGHT = 'ArrowRight';
 
-const addPixelSuffix = function(element) {
-  return element + 'px';
-};
+const addPixelSuffix = element => element + 'px';
 
 const getScreen = document => document.getElementById('screen_1');
 
@@ -14,7 +12,7 @@ const handleMovement = function(document, paddle) {
   drawPaddle(document, paddle);
 };
 
-const startGame = function(document, game, ball) {
+const moveBall = function(document, game, ball) {
   setInterval(function() {
     game.moveBall();
     drawBall(document, ball);
@@ -25,7 +23,7 @@ const setEventListners = function(document, game, paddle, ball) {
   const screen = getScreen(document);
   screen.focus();
   screen.onkeydown = handleMovement.bind(null, document, paddle);
-  screen.onclick = startGame.bind(null, document, game, ball);
+  screen.onclick = moveBall.bind(null, document, game, ball);
 };
 
 const initialiseGame = function() {

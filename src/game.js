@@ -12,6 +12,12 @@ class Paddle {
   moveRight() {
     this.left = this.left + this.speed;
   }
+  detectCollision(colliderBounds) {
+    if (colliderBounds.Y <= this.bottom + this.height) {
+      return { hasCollided: true, X: 1, Y: -1 };
+    }
+    return { hasCollided: false, X: 1, Y: 1 };
+  }
 }
 
 class Velocity {
@@ -62,21 +68,21 @@ class Wall {
 
   detectCollision(colliderBounds, colliderWidth) {
     if (colliderBounds.Y >= this.bottomPosition - colliderWidth) {
-      return { X: 1, Y: -1 };
+      return { hasCollided: true, X: 1, Y: -1 };
     }
 
     if (colliderBounds.Y <= this.topPosition) {
-      return { X: 1, Y: -1 };
+      return { hasCollided: true, X: 1, Y: -1 };
     }
 
     if (colliderBounds.X <= this.rightPosition) {
-      return { X: -1, Y: 1 };
+      return { hasCollided: true, X: -1, Y: 1 };
     }
 
     if (colliderBounds.X >= this.leftPosition - colliderWidth) {
-      return { X: -1, Y: 1 };
+      return { hasCollided: true, X: -1, Y: 1 };
     }
-    return { X: 1, Y: 1 };
+    return { hasCollided: false, X: 1, Y: 1 };
   }
 }
 
@@ -88,12 +94,24 @@ class Game {
     this.ball = ball;
   }
 
+  detectCollisions() {
+    const obstacles = [this.wall, this.paddle];
+
+    let collidingResults = obstacles.map(obstacle =>
+      obstacle.detectCollision(this.ball.position, this.ball.diameter)
+    );
+
+    let velocityMultiplier = collidingResults.filter(
+      multiplier => multiplier.hasCollided
+    );
+
+    if (!velocityMultiplier.length) velocityMultiplier = [{ X: 1, Y: 1 }];
+    return velocityMultiplier[0];
+  }
+
   moveBall() {
     this.ball.move();
-    let velocityMultiplier = this.wall.detectCollision(
-      this.ball.position,
-      this.ball.diameter
-    );
+    let velocityMultiplier = this.detectCollisions();
     this.ball.changeVelocity(velocityMultiplier);
   }
 }
