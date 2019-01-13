@@ -11,4 +11,5 @@
 * DONE paddle, ball, screen, bricks will be known by the game class.
 * TODO improve directory structure to src and test.
 * DONE ball sould have direction as a property.
+* TODO paddle will have mathod to check collision with ball.
 

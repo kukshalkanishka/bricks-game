@@ -20,9 +20,9 @@ const createPaddleDiv = function(document, paddle) {
 const drawBall = function(document, ball) {
   const ballDiv = document.getElementById('ball_1');
   ballDiv.style.left = addPixelSuffix(ball.position.X);
-  ballDiv.style.top = addPixelSuffix(ball.position.Y);
-  ballDiv.style.width = addPixelSuffix(ball.radius * 2);
-  ballDiv.style.height = addPixelSuffix(ball.radius * 2);
+  ballDiv.style.bottom = addPixelSuffix(ball.position.Y);
+  ballDiv.style.width = addPixelSuffix(ball.diameter);
+  ballDiv.style.height = addPixelSuffix(ball.diameter);
 };
 
 const createBall = function(document, ball) {

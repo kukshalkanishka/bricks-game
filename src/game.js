@@ -29,8 +29,8 @@ class BallPosition {
 }
 
 class Ball {
-  constructor(radius, ballPosition, velocity) {
-    this.radius = radius;
+  constructor(diameter, ballPosition, velocity) {
+    this.diameter = diameter;
     this.position = ballPosition;
     this.velocity = velocity;
   }
@@ -39,9 +39,9 @@ class Ball {
     this.position.Y += this.velocity.Y;
   }
 
-  changeVelocity(X, Y) {
-    this.velocity.X = X;
-    this.velocity.Y = Y;
+  changeVelocity(velocityMultiplier) {
+    this.velocity.X *= velocityMultiplier.X;
+    this.velocity.Y *= velocityMultiplier.Y;
   }
 }
 
@@ -59,6 +59,25 @@ class Wall {
     this.topPosition = topPosition;
     this.bottomPosition = bottomPosition;
   }
+
+  detectCollision(colliderBounds, colliderWidth) {
+    if (colliderBounds.Y >= this.bottomPosition - colliderWidth) {
+      return { X: 1, Y: -1 };
+    }
+
+    if (colliderBounds.Y <= this.topPosition) {
+      return { X: 1, Y: -1 };
+    }
+
+    if (colliderBounds.X <= this.rightPosition) {
+      return { X: -1, Y: 1 };
+    }
+
+    if (colliderBounds.X >= this.leftPosition - colliderWidth) {
+      return { X: -1, Y: 1 };
+    }
+    return { X: 1, Y: 1 };
+  }
 }
 
 class Game {
@@ -69,33 +88,12 @@ class Game {
     this.ball = ball;
   }
 
-  checkCollisionOfBallAndWall() {
-    const ballDiameter = this.ball.radius * 2;
-    if (this.ball.position.Y >= this.wall.bottomPosition - ballDiameter) {
-      this.ball.changeVelocity(this.ball.velocity.X, -this.ball.velocity.Y);
-    }
-
-    if (this.ball.position.Y <= this.wall.topPosition) {
-      this.ball.changeVelocity(
-        this.ball.velocity.X,
-        Math.abs(this.ball.velocity.Y)
-      );
-    }
-
-    if (this.ball.position.X <= this.wall.rightPosition) {
-      this.ball.changeVelocity(
-        Math.abs(this.ball.velocity.X),
-        this.ball.velocity.Y
-      );
-    }
-
-    if (this.ball.position.X >= this.wall.leftPosition - ballDiameter) {
-      this.ball.changeVelocity(-this.ball.velocity.X, this.ball.velocity.Y);
-    }
-  }
-
   moveBall() {
     this.ball.move();
-    this.checkCollisionOfBallAndWall();
+    let velocityMultiplier = this.wall.detectCollision(
+      this.ball.position,
+      this.ball.diameter
+    );
+    this.ball.changeVelocity(velocityMultiplier);
   }
 }
