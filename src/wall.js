@@ -1,26 +1,54 @@
-class Wall {
-  constructor(rightPosition, leftPosition, topPosition, bottomPosition) {
-    this.rightPosition = rightPosition;
-    this.leftPosition = leftPosition;
-    this.topPosition = topPosition;
-    this.bottomPosition = bottomPosition;
+class RightWall {
+  constructor(height, width, position) {
+    this.height = height;
+    this.width = width;
+    this.position = position;
   }
+  detectCollision(colliderBounds) {
+    if (colliderBounds.X <= this.position) {
+      return { hasCollided: true, X: -1, Y: 1 };
+    }
+    return { hasCollided: false, X: 1, Y: 1 };
+  }
+}
 
+class LeftWall {
+  constructor(height, width, position) {
+    this.height = height;
+    this.width = width;
+    this.position = position;
+  }
   detectCollision(colliderBounds, colliderWidth) {
-    if (colliderBounds.Y >= this.bottomPosition - colliderWidth) {
-      return { hasCollided: true, X: 1, Y: -1 };
-    }
-
-    if (colliderBounds.Y <= this.topPosition) {
-      return { hasCollided: true, X: 1, Y: -1 };
-    }
-
-    if (colliderBounds.X <= this.rightPosition) {
+    if (colliderBounds.X >= this.position - colliderWidth) {
       return { hasCollided: true, X: -1, Y: 1 };
     }
+    return { hasCollided: false, X: 1, Y: 1 };
+  }
+}
 
-    if (colliderBounds.X >= this.leftPosition - colliderWidth) {
-      return { hasCollided: true, X: -1, Y: 1 };
+class TopWall {
+  constructor(height, width, position) {
+    this.height = height;
+    this.width = width;
+    this.position = position;
+  }
+  detectCollision(colliderBounds) {
+    if (colliderBounds.Y <= this.position) {
+      return { hasCollided: true, X: 1, Y: -1 };
+    }
+    return { hasCollided: false, X: 1, Y: 1 };
+  }
+}
+
+class BottomWall {
+  constructor(height, width, position) {
+    this.height = height;
+    this.width = width;
+    this.position = position;
+  }
+  detectCollision(colliderBounds, colliderWidth) {
+    if (colliderBounds.Y >= this.position - colliderWidth) {
+      return { hasCollided: true, X: 1, Y: -1 };
     }
     return { hasCollided: false, X: 1, Y: 1 };
   }

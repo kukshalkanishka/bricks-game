@@ -20,12 +20,30 @@ class Screen {
 }
 
 class Game {
-  constructor(screen, wall, paddle, ball) {
+  constructor({
+    screen,
+    rightWall,
+    leftWall,
+    topWall,
+    bottomWall,
+    paddle,
+    ball
+  }) {
     this.screen = screen;
-    this.wall = wall;
+    this.rightWall = rightWall;
+    this.leftWall = leftWall;
+    this.topWall = topWall;
+    this.bottomWall = bottomWall;
     this.paddle = paddle;
     this.ball = ball;
-    this.obstacles = [this.wall, this.paddle];
+
+    this.obstacles = [
+      this.rightWall,
+      this.leftWall,
+      this.topWall,
+      this.bottomWall,
+      this.paddle
+    ];
   }
 
   detectCollisions() {
