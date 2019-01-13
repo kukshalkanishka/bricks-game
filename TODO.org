@@ -9,7 +9,9 @@
 * DONE make screen it's own entity.
 * DONE game will be a class of itself
 * DONE paddle, ball, screen, bricks will be known by the game class.
-* TODO improve directory structure to src and test.
+* DONE improve directory structure to src and test.
 * DONE ball sould have direction as a property.
 * DONE paddle will have mathod to check collision with ball.
+* TODO Make a class brick.
+* TODO Make a class bricks that will generate bricks collection.
 

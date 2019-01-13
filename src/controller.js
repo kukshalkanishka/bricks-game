@@ -31,7 +31,7 @@ const initialiseGame = function() {
   const wall = new Wall(0, 960, 0, 680);
   const paddle = new Paddle(150, 20, 430, 10);
   const velocity = new Velocity(5, 5);
-  const ballPosition = new BallPosition(490, 30);
+  const ballPosition = new Position(490, 30);
   const ball = new Ball(30, ballPosition, velocity);
   const game = new Game(screen, wall, paddle, ball);
 

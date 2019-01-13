@@ -1,25 +1,3 @@
-class Paddle {
-  constructor(width, height, left, bottom, speed = 10) {
-    this.width = width;
-    this.height = height;
-    this.left = left;
-    this.bottom = bottom;
-    this.speed = speed;
-  }
-  moveLeft() {
-    this.left = this.left - this.speed;
-  }
-  moveRight() {
-    this.left = this.left + this.speed;
-  }
-  detectCollision(colliderBounds) {
-    if (colliderBounds.Y <= this.bottom + this.height) {
-      return { hasCollided: true, X: 1, Y: -1 };
-    }
-    return { hasCollided: false, X: 1, Y: 1 };
-  }
-}
-
 class Velocity {
   constructor(velocityX, velocityY) {
     this.X = velocityX;
@@ -27,27 +5,10 @@ class Velocity {
   }
 }
 
-class BallPosition {
+class Position {
   constructor(positionX, positionY) {
     this.X = positionX;
     this.Y = positionY;
-  }
-}
-
-class Ball {
-  constructor(diameter, ballPosition, velocity) {
-    this.diameter = diameter;
-    this.position = ballPosition;
-    this.velocity = velocity;
-  }
-  move() {
-    this.position.X += this.velocity.X;
-    this.position.Y += this.velocity.Y;
-  }
-
-  changeVelocity(velocityMultiplier) {
-    this.velocity.X *= velocityMultiplier.X;
-    this.velocity.Y *= velocityMultiplier.Y;
   }
 }
 
@@ -58,60 +19,31 @@ class Screen {
   }
 }
 
-class Wall {
-  constructor(rightPosition, leftPosition, topPosition, bottomPosition) {
-    this.rightPosition = rightPosition;
-    this.leftPosition = leftPosition;
-    this.topPosition = topPosition;
-    this.bottomPosition = bottomPosition;
-  }
-
-  detectCollision(colliderBounds, colliderWidth) {
-    if (colliderBounds.Y >= this.bottomPosition - colliderWidth) {
-      return { hasCollided: true, X: 1, Y: -1 };
-    }
-
-    if (colliderBounds.Y <= this.topPosition) {
-      return { hasCollided: true, X: 1, Y: -1 };
-    }
-
-    if (colliderBounds.X <= this.rightPosition) {
-      return { hasCollided: true, X: -1, Y: 1 };
-    }
-
-    if (colliderBounds.X >= this.leftPosition - colliderWidth) {
-      return { hasCollided: true, X: -1, Y: 1 };
-    }
-    return { hasCollided: false, X: 1, Y: 1 };
-  }
-}
-
 class Game {
   constructor(screen, wall, paddle, ball) {
     this.screen = screen;
     this.wall = wall;
     this.paddle = paddle;
     this.ball = ball;
+    this.obstacles = [this.wall, this.paddle];
   }
 
   detectCollisions() {
-    const obstacles = [this.wall, this.paddle];
-
-    let collidingResults = obstacles.map(obstacle =>
+    let collidingResults = this.obstacles.map(obstacle =>
       obstacle.detectCollision(this.ball.position, this.ball.diameter)
     );
 
-    let velocityMultiplier = collidingResults.filter(
-      multiplier => multiplier.hasCollided
+    let colliderDirection = collidingResults.filter(
+      result => result.hasCollided
     );
 
-    if (!velocityMultiplier.length) velocityMultiplier = [{ X: 1, Y: 1 }];
-    return velocityMultiplier[0];
+    if (!colliderDirection.length) colliderDirection = [{ X: 1, Y: 1 }];
+    return colliderDirection.pop();
   }
 
   moveBall() {
     this.ball.move();
-    let velocityMultiplier = this.detectCollisions();
-    this.ball.changeVelocity(velocityMultiplier);
+    let ballDirection = this.detectCollisions();
+    this.ball.changeVelocity(ballDirection);
   }
 }
