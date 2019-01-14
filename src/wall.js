@@ -1,55 +1,42 @@
-class RightWall {
-  constructor(height, width, position) {
-    this.height = height;
-    this.width = width;
-    this.position = position;
+class Wall {
+  constructor(rightPosition, leftPosition, topPosition, bottomPosition) {
+    this.rightPosition = rightPosition;
+    this.leftPosition = leftPosition;
+    this.topPosition = topPosition;
+    this.bottomPosition = bottomPosition;
   }
-  detectCollision(colliderBounds) {
-    if (colliderBounds.X <= this.position) {
-      return { hasCollided: true, X: -1, Y: 1 };
-    }
-    return { hasCollided: false, X: 1, Y: 1 };
-  }
-}
 
-class LeftWall {
-  constructor(height, width, position) {
-    this.height = height;
-    this.width = width;
-    this.position = position;
+  changeVelocity(colliderVelocity, velocityComponent) {
+    this.velocity = new Velocity(colliderVelocity.X, colliderVelocity.Y);
+    this.velocity.negate(velocityComponent);
+    return this.velocity.getVelocity();
   }
-  detectCollision(colliderBounds, colliderWidth) {
-    if (colliderBounds.X >= this.position - colliderWidth) {
-      return { hasCollided: true, X: -1, Y: 1 };
-    }
-    return { hasCollided: false, X: 1, Y: 1 };
-  }
-}
 
-class TopWall {
-  constructor(height, width, position) {
-    this.height = height;
-    this.width = width;
-    this.position = position;
+  hasCollidedWithHorizontal(colliderDetails) {
+    return (
+      colliderDetails.position.X >= this.leftPosition - colliderDetails.width ||
+      colliderDetails.position.X <= this.rightPosition
+    );
   }
-  detectCollision(colliderBounds) {
-    if (colliderBounds.Y <= this.position) {
-      return { hasCollided: true, X: 1, Y: -1 };
-    }
-    return { hasCollided: false, X: 1, Y: 1 };
-  }
-}
 
-class BottomWall {
-  constructor(height, width, position) {
-    this.height = height;
-    this.width = width;
-    this.position = position;
+  hasCollidedWithVertical(colliderDetails) {
+    return (
+      colliderDetails.position.Y >=
+        this.bottomPosition - colliderDetails.width ||
+      colliderDetails.position.Y <= this.topPosition
+    );
   }
-  detectCollision(colliderBounds, colliderWidth) {
-    if (colliderBounds.Y >= this.position - colliderWidth) {
-      return { hasCollided: true, X: 1, Y: -1 };
+
+  detectCollision(colliderDetails) {
+    if (this.hasCollidedWithVertical(colliderDetails)) {
+      let newVelocity = this.changeVelocity(colliderDetails.velocity, 'Y');
+      return { hasCollided: true, velocity: newVelocity };
     }
-    return { hasCollided: false, X: 1, Y: 1 };
+
+    if (this.hasCollidedWithHorizontal(colliderDetails)) {
+      let newVelocity = this.changeVelocity(colliderDetails.velocity, 'X');
+      return { hasCollided: true, velocity: newVelocity };
+    }
+    return { hasCollided: false, velocity: colliderDetails.velocity };
   }
 }

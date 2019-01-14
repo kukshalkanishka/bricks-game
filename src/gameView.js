@@ -5,7 +5,7 @@ const drawPaddle = function(document, paddle) {
   paddleDiv.style.width = addPixelSuffix(paddle.width);
   paddleDiv.style.height = addPixelSuffix(paddle.height);
   paddleDiv.style.left = addPixelSuffix(paddle.left);
-  paddleDiv.style.bottom = addPixelSuffix(paddle.bottom);
+  paddleDiv.style.top = addPixelSuffix(paddle.top);
 };
 
 const createPaddleDiv = function(document, paddle) {
@@ -20,7 +20,7 @@ const createPaddleDiv = function(document, paddle) {
 const drawBall = function(document, ball) {
   const ballDiv = document.getElementById('ball_1');
   ballDiv.style.left = addPixelSuffix(ball.position.X);
-  ballDiv.style.bottom = addPixelSuffix(ball.position.Y);
+  ballDiv.style.top = addPixelSuffix(ball.position.Y);
   ballDiv.style.width = addPixelSuffix(ball.diameter);
   ballDiv.style.height = addPixelSuffix(ball.diameter);
 };

@@ -1,10 +1,3 @@
-class Velocity {
-  constructor(velocityX, velocityY) {
-    this.X = velocityX;
-    this.Y = velocityY;
-  }
-}
-
 class Position {
   constructor(positionX, positionY) {
     this.X = positionX;
@@ -20,48 +13,43 @@ class Screen {
 }
 
 class Game {
-  constructor({
-    screen,
-    rightWall,
-    leftWall,
-    topWall,
-    bottomWall,
-    paddle,
-    ball
-  }) {
+  constructor({ screen, wall, paddle, ball }) {
     this.screen = screen;
-    this.rightWall = rightWall;
-    this.leftWall = leftWall;
-    this.topWall = topWall;
-    this.bottomWall = bottomWall;
+    this.wall = wall;
     this.paddle = paddle;
     this.ball = ball;
 
-    this.obstacles = [
-      this.rightWall,
-      this.leftWall,
-      this.topWall,
-      this.bottomWall,
-      this.paddle
-    ];
+    this.obstacles = [this.wall, this.paddle];
   }
 
   detectCollisions() {
+    const collidalDetails = {
+      position: this.ball.position,
+      width: this.ball.diameter,
+      velocity: this.ball.velocity
+    };
+
     let collidingResults = this.obstacles.map(obstacle =>
-      obstacle.detectCollision(this.ball.position, this.ball.diameter)
+      obstacle.detectCollision(collidalDetails)
     );
 
-    let colliderDirection = collidingResults.filter(
-      result => result.hasCollided
-    );
+    let newVelocity = collidingResults.filter(result => result.hasCollided);
 
-    if (!colliderDirection.length) colliderDirection = [{ X: 1, Y: 1 }];
-    return colliderDirection.pop();
+    if (!newVelocity.length)
+      newVelocity = [
+        {
+          velocity: {
+            X: collidalDetails.velocity.X,
+            Y: collidalDetails.velocity.Y
+          }
+        }
+      ];
+    return newVelocity.pop();
   }
 
   moveBall() {
     this.ball.move();
-    let ballDirection = this.detectCollisions();
-    this.ball.changeVelocity(ballDirection);
+    let newVelocity = this.detectCollisions();
+    this.ball.changeVelocity(newVelocity);
   }
 }

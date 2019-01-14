@@ -9,8 +9,8 @@ class Ball {
     this.position.Y += this.velocity.Y;
   }
 
-  changeVelocity(velocityMultiplier) {
-    this.velocity.X *= velocityMultiplier.X;
-    this.velocity.Y *= velocityMultiplier.Y;
+  changeVelocity(newVelocity) {
+    this.velocity.X = newVelocity.velocity.X;
+    this.velocity.Y = newVelocity.velocity.Y;
   }
 }

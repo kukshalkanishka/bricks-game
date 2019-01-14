@@ -1,9 +1,9 @@
 class Paddle {
-  constructor(width, height, left, bottom, speed = 10) {
+  constructor(width, height, left, top, speed = 10) {
     this.width = width;
     this.height = height;
     this.left = left;
-    this.bottom = bottom;
+    this.top = top;
     this.speed = speed;
   }
   moveLeft() {
@@ -13,8 +13,8 @@ class Paddle {
     this.left = this.left + this.speed;
   }
 
-  hasTopMatched(colliderBounds) {
-    return colliderBounds.Y <= this.bottom + this.height;
+  hasTopMatched(colliderBounds, colliderHeight) {
+    return colliderBounds.Y >= this.top - colliderHeight;
   }
 
   hasWidthMatched(colliderBounds) {
@@ -24,16 +24,24 @@ class Paddle {
     );
   }
 
-  hasCollided(colliderBounds) {
+  hasCollided(colliderDetails) {
     return (
-      this.hasTopMatched(colliderBounds) && this.hasWidthMatched(colliderBounds)
+      this.hasTopMatched(colliderDetails.position, colliderDetails.width) &&
+      this.hasWidthMatched(colliderDetails.position)
     );
   }
 
-  detectCollision(colliderBounds) {
-    if (this.hasCollided(colliderBounds)) {
-      return { hasCollided: true, X: 1, Y: -1 };
+  getNewVelocity(colliderVelocity) {
+    let velocity = new Velocity(colliderVelocity.X, colliderVelocity.Y);
+    velocity.negate('Y');
+    return velocity.getVelocity();
+  }
+
+  detectCollision(colliderDetails) {
+    if (this.hasCollided(colliderDetails)) {
+      let newVelocity = this.getNewVelocity(colliderDetails.velocity);
+      return { hasCollided: true, velocity: newVelocity };
     }
-    return { hasCollided: false, X: 1, Y: 1 };
+    return { hasCollided: false, velocity: colliderDetails.velocity };
   }
 }

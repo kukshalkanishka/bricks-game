@@ -5,43 +5,37 @@ const addPixelSuffix = element => element + 'px';
 
 const getScreen = document => document.getElementById('screen_1');
 
-const handleMovement = function(document, paddle) {
-  if (event.key == ARROW_LEFT) paddle.moveLeft();
-  if (event.key == ARROW_RIGHT) paddle.moveRight();
+const handleMovement = function(document, game) {
+  if (event.key == ARROW_LEFT) game.paddle.moveLeft();
+  if (event.key == ARROW_RIGHT) game.paddle.moveRight();
 
-  drawPaddle(document, paddle);
+  drawPaddle(document, game.paddle);
 };
 
-const moveBall = function(document, game, ball) {
+const moveBall = function(document, game) {
   setInterval(function() {
     game.moveBall();
-    drawBall(document, ball);
+    drawBall(document, game.ball);
   }, 50);
 };
 
-const setEventListners = function(document, game, paddle, ball) {
+const setEventListners = function(document, game) {
   const screen = getScreen(document);
   screen.focus();
-  screen.onkeydown = handleMovement.bind(null, document, paddle);
-  screen.onclick = moveBall.bind(null, document, game, ball);
+  screen.onkeydown = handleMovement.bind(null, document, game);
+  screen.onclick = moveBall.bind(null, document, game);
 };
 
 const initialiseGame = function() {
   const screen = new Screen(960, 680);
-  const rightWall = new RightWall(680, 0, 0);
-  const leftWall = new LeftWall(680, 0, 960);
-  const topWall = new TopWall(0, 960, 0);
-  const bottomWall = new BottomWall(0, 960, 680);
-  const paddle = new Paddle(150, 20, 430, 10);
-  const velocity = new Velocity(5, 5);
-  const ballPosition = new Position(490, 30);
+  const wall = new Wall(0, 960, 0, 680);
+  const paddle = new Paddle(150, 20, 430, 650);
+  const velocity = new Velocity(-5, -5);
+  const ballPosition = new Position(490, 620);
   const ball = new Ball(30, ballPosition, velocity);
   const game = new Game({
     screen,
-    rightWall,
-    leftWall,
-    topWall,
-    bottomWall,
+    wall,
     paddle,
     ball
   });
