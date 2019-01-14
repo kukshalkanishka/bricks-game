@@ -27,20 +27,18 @@ const setEventListners = function(document, game) {
 };
 
 const initialiseGame = function() {
-  const screen = new Screen(960, 680);
-  const wall = new Wall(0, 960, 0, 680);
+  const wall = new Wall(680, 960);
   const paddle = new Paddle(150, 20, 430, 650);
   const velocity = new Velocity(-5, -5);
   const ballPosition = new Position(490, 620);
   const ball = new Ball(30, ballPosition, velocity);
   const game = new Game({
-    screen,
     wall,
     paddle,
     ball
   });
 
-  createScreen(document, screen);
+  createWall(document, wall);
   createPaddleDiv(document, paddle);
   createBall(document, ball);
 

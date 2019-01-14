@@ -1,9 +1,11 @@
 class Wall {
-  constructor(rightPosition, leftPosition, topPosition, bottomPosition) {
-    this.rightPosition = rightPosition;
-    this.leftPosition = leftPosition;
-    this.topPosition = topPosition;
-    this.bottomPosition = bottomPosition;
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+    this.rightWallPosition = 0;
+    this.leftWallPosition = this.width;
+    this.topWallPosition = 0;
+    this.bottomWallPosition = this.height;
   }
 
   changeVelocity(colliderVelocity, velocityComponent) {
@@ -14,16 +16,17 @@ class Wall {
 
   hasCollidedWithHorizontal(colliderDetails) {
     return (
-      colliderDetails.position.X >= this.leftPosition - colliderDetails.width ||
-      colliderDetails.position.X <= this.rightPosition
+      colliderDetails.position.X >=
+        this.leftWallPosition - colliderDetails.width ||
+      colliderDetails.position.X <= this.rightWallPosition
     );
   }
 
   hasCollidedWithVertical(colliderDetails) {
     return (
       colliderDetails.position.Y >=
-        this.bottomPosition - colliderDetails.width ||
-      colliderDetails.position.Y <= this.topPosition
+        this.bottomWallPosition - colliderDetails.width ||
+      colliderDetails.position.Y <= this.topWallPosition
     );
   }
 

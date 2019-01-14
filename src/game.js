@@ -5,13 +5,6 @@ class Position {
   }
 }
 
-class Screen {
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-  }
-}
-
 class Game {
   constructor({ screen, wall, paddle, ball }) {
     this.screen = screen;
@@ -22,7 +15,7 @@ class Game {
     this.obstacles = [this.wall, this.paddle];
   }
 
-  getNewVelocity() {
+  getVelocityOnCollision() {
     let collidalDetails = {
       position: this.ball.position,
       width: this.ball.diameter,
@@ -39,7 +32,7 @@ class Game {
 
   moveBall() {
     this.ball.move();
-    let newVelocity = this.getNewVelocity();
+    let newVelocity = this.getVelocityOnCollision();
     if (newVelocity) {
       this.ball.changeVelocity(newVelocity);
     }

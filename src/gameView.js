@@ -40,7 +40,7 @@ const drawScreen = function(document, screen) {
   screenDiv.style.height = addPixelSuffix(screen.height);
 };
 
-const createScreen = function(document, screen) {
+const createWall = function(document, screen) {
   const main = getMain(document);
   const screenDiv = document.createElement('div');
   screenDiv.id = 'screen_1';
