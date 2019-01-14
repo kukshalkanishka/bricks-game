@@ -22,8 +22,8 @@ class Game {
     this.obstacles = [this.wall, this.paddle];
   }
 
-  detectCollisions() {
-    const collidalDetails = {
+  getNewVelocity() {
+    let collidalDetails = {
       position: this.ball.position,
       width: this.ball.diameter,
       velocity: this.ball.velocity
@@ -34,22 +34,14 @@ class Game {
     );
 
     let newVelocity = collidingResults.filter(result => result.hasCollided);
-
-    if (!newVelocity.length)
-      newVelocity = [
-        {
-          velocity: {
-            X: collidalDetails.velocity.X,
-            Y: collidalDetails.velocity.Y
-          }
-        }
-      ];
     return newVelocity.pop();
   }
 
   moveBall() {
     this.ball.move();
-    let newVelocity = this.detectCollisions();
-    this.ball.changeVelocity(newVelocity);
+    let newVelocity = this.getNewVelocity();
+    if (newVelocity) {
+      this.ball.changeVelocity(newVelocity);
+    }
   }
 }
